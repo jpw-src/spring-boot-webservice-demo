@@ -19,6 +19,7 @@ public class WebServiceTestConfig {
         result.setDefaultUri("http://localhost:8080/ws");
         result.setInterceptors( new ClientInterceptor[] { securityInterceptor(), new SoapClientLoggingInterceptor() } );
         result.setMarshaller( marshaller() );
+        result.setUnmarshaller( marshaller() );
         return result;
     }
 
