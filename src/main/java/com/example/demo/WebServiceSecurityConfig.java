@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.ws.server.EndpointInterceptor;
 import org.springframework.ws.soap.security.wss4j2.Wss4jSecurityInterceptor;
+import org.springframework.ws.soap.security.wss4j2.callback.KeyStoreCallbackHandler;
 import org.springframework.ws.soap.security.wss4j2.support.CryptoFactoryBean;
 
 @Configuration
@@ -26,6 +27,9 @@ public class WebServiceSecurityConfig {
         interceptor.setSecurementPassword( "password" );
         interceptor.setValidationActions( "Encrypt" );
         interceptor.setValidationDecryptionCrypto( cryptoFactoryBean().getObject() );
+        KeyStoreCallbackHandler callbackHandler = new KeyStoreCallbackHandler();
+        callbackHandler.setPrivateKeyPassword( "password" );
+        interceptor.setValidationCallbackHandler( callbackHandler );
 
         return interceptor;
     }
