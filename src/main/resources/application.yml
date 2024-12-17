@@ -1,0 +1,9 @@
+server:
+  port: 8080
+
+logging.level:
+    com.example: DEBUG
+    org.springframework.ws: DEBUG
+    org.springframework.ws.soap: TRACE
+    org.springframework.ws.security: DEBUG
+    org.springframework.ws.server.MessageTracing: TRACE
