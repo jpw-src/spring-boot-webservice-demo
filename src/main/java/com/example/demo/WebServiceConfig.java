@@ -1,8 +1,10 @@
 package com.example.demo;
 
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.ws.transport.http.MessageDispatcherServlet;
 import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
@@ -14,7 +16,7 @@ public class WebServiceConfig {
     private static final String NAMESPACE_URI = "http://example.com/demo";
 
     @Bean
-    public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet(org.springframework.context.ApplicationContext context) {
+    public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet( ApplicationContext context) {
         MessageDispatcherServlet servlet = new MessageDispatcherServlet();
         servlet.setApplicationContext(context);
         servlet.setTransformWsdlLocations(true);
@@ -33,6 +35,6 @@ public class WebServiceConfig {
 
     @Bean
     public XsdSchema demoSchema() {
-        return new SimpleXsdSchema(new org.springframework.core.io.ClassPathResource("xsd/demo.xsd"));
+        return new SimpleXsdSchema(new ClassPathResource("xsd/demo.xsd"));
     }
 }
