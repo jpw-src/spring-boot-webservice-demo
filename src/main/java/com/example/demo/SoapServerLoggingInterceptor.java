@@ -10,7 +10,7 @@ import org.springframework.ws.server.EndpointInterceptor;
 import org.springframework.ws.soap.SoapMessage;
 
 @Component
-public class C_SoapServerLoggingInterceptor implements EndpointInterceptor {
+public class SoapServerLoggingInterceptor implements EndpointInterceptor {
     private static final Logger logger = LoggerFactory.getLogger( MethodHandles.lookup().lookupClass() );
 
     @Override
