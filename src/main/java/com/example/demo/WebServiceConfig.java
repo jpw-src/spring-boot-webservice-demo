@@ -15,7 +15,6 @@ public class WebServiceConfig {
 
     private static final String NAMESPACE_URI = "http://example.com/demo";
 
-    @Bean
     public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet( ApplicationContext context) {
         MessageDispatcherServlet servlet = new MessageDispatcherServlet();
         servlet.setApplicationContext(context);
