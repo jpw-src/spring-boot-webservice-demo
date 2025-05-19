@@ -7,8 +7,7 @@ import org.springframework.ws.config.annotation.EnableWs;
 @EnableWs
 @SpringBootApplication
 public class SoapWsDemoApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(SoapWsDemoApplication.class, args);
+    public static void main( String[] args ) {
+        SpringApplication.run( SoapWsDemoApplication.class, args );
     }
 }

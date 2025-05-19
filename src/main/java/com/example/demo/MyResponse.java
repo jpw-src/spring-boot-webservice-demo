@@ -2,7 +2,7 @@ package com.example.demo;
 
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "MyResponse", namespace = "http://example.com/demo")
+@XmlRootElement( name = "MyResponse", namespace = "http://example.com/demo" )
 public class MyResponse {
     private String message;
 
@@ -10,7 +10,7 @@ public class MyResponse {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage( String message ) {
         this.message = message;
     }
 }

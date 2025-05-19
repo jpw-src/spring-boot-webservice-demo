@@ -1,40 +1,57 @@
 package com.example.demo;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.ws.config.annotation.WsConfigurerAdapter;
+import org.springframework.ws.server.EndpointInterceptor;
+import org.springframework.ws.soap.security.wss4j2.Wss4jSecurityInterceptor;
 import org.springframework.ws.transport.http.MessageDispatcherServlet;
 import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.xml.xsd.XsdSchema;
 
 @Configuration
-public class WebServiceConfig {
-
+public class WebServiceConfig extends WsConfigurerAdapter {
     private static final String NAMESPACE_URI = "http://example.com/demo";
 
+    @Autowired
+    private Wss4jSecurityInterceptor securityInterceptor;
+
+    @Autowired
+    private SoapServerLoggingInterceptor loggingInterceptor;
+
     @Bean
-    public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet( ApplicationContext context) {
+    public ServletRegistrationBean<MessageDispatcherServlet > messageDispatcherServlet( ApplicationContext context ) {
         MessageDispatcherServlet servlet = new MessageDispatcherServlet();
-        servlet.setApplicationContext(context);
-        servlet.setTransformWsdlLocations(true);
-        return new ServletRegistrationBean<>(servlet, "/ws/*");
+        servlet.setApplicationContext( context );
+        servlet.setTransformWsdlLocations( true );
+        return new ServletRegistrationBean<>( servlet, "/ws/*" );
     }
 
-    @Bean(name = "demo")
-    public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema demoSchema) {
+    @Bean( name = "demo" )
+    public DefaultWsdl11Definition defaultWsdl11Definition( XsdSchema demoSchema ) {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
-        wsdl11Definition.setPortTypeName("DemoPort");
-        wsdl11Definition.setLocationUri("/ws");
-        wsdl11Definition.setTargetNamespace(NAMESPACE_URI);
-        wsdl11Definition.setSchema(demoSchema);
+        wsdl11Definition.setPortTypeName( "DemoPort" );
+        wsdl11Definition.setLocationUri( "/ws" );
+        wsdl11Definition.setTargetNamespace( NAMESPACE_URI );
+        wsdl11Definition.setSchema( demoSchema );
         return wsdl11Definition;
     }
 
     @Bean
     public XsdSchema demoSchema() {
-        return new SimpleXsdSchema(new ClassPathResource("xsd/demo.xsd"));
+        return new SimpleXsdSchema( new ClassPathResource( "xsd/demo.xsd" ) );
+    }
+
+    @Override
+    public void addInterceptors( List<EndpointInterceptor > interceptors ) {
+        interceptors.add( securityInterceptor );
+        interceptors.add( loggingInterceptor );
     }
 }

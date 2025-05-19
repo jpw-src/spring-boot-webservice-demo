@@ -16,26 +16,38 @@ public class WebServiceTestConfig {
     @Bean
     public WebServiceTemplate webServiceTemplate() throws Exception {
         WebServiceTemplate result = new WebServiceTemplate();
-        result.setDefaultUri("http://localhost:8080/ws");
-        result.setInterceptors( new ClientInterceptor[] { securityInterceptor(), new SoapClientLoggingInterceptor() } );
+        result.setDefaultUri( "http://localhost:8080/ws" );
+        result.setInterceptors(
+                new ClientInterceptor[] {
+                        whitespaceInjectorInterceptor(),
+                        new SoapClientLoggingInterceptor(),
+                        securityInterceptor(),
+                        new SoapClientLoggingInterceptor() 
+                } 
+        );
         result.setMarshaller( marshaller() );
         result.setUnmarshaller( marshaller() );
         return result;
     }
 
     @Bean
+    public ClientInterceptor whitespaceInjectorInterceptor() {
+        return new WhitespaceInjectorInterceptor();
+    }
+
+    @Bean
     public Jaxb2Marshaller marshaller() {
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-        marshaller.setPackagesToScan("com.example.demo");
+        marshaller.setPackagesToScan( "com.example.demo" );
         return marshaller;
     }
 
     public Wss4jSecurityInterceptor securityInterceptor() throws Exception {
         Wss4jSecurityInterceptor interceptor = new Wss4jSecurityInterceptor();
         interceptor.setSecurementActions( "Encrypt" );
-        interceptor.setSecurementEncryptionUser( "server-cert" );
         interceptor.setSecurementEncryptionCrypto( cryptoFactoryBean().getObject() );
         interceptor.setSecurementEncryptionParts( "{Content}{http://schemas.xmlsoap.org/soap/envelope/}Body" );
+        interceptor.setSecurementEncryptionUser( "server-cert" );
         return interceptor;
     }
 

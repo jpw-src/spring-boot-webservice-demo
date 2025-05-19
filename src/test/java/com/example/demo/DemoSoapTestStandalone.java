@@ -1,4 +1,5 @@
 package com.example.demo;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -9,8 +10,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.ws.client.core.WebServiceTemplate;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = WebServiceTestConfig.class)
+@ExtendWith( SpringExtension.class )
+@ContextConfiguration( classes = WebServiceTestConfig.class )
 class DemoSoapTestStandalone {
     @Autowired
     private WebServiceTemplate webServiceTemplate;
@@ -18,10 +19,10 @@ class DemoSoapTestStandalone {
     @Test
     void testEncryptedSoapCall() throws Exception {
         MyRequest request = new MyRequest();
-        request.setName("John");
-        MyResponse response = (MyResponse) webServiceTemplate.marshalSendAndReceive(request);
+        request.setName( "John" );
+        MyResponse response = (MyResponse )webServiceTemplate.marshalSendAndReceive( request );
 
-        assertNotNull(response);
-        assertEquals("Hello, John", response.getMessage());
+        assertNotNull( response );
+        assertEquals( "Hello, John", response.getMessage() );
     }
 }

@@ -6,10 +6,10 @@ import java.nio.charset.StandardCharsets;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.ws.client.support.interceptor.ClientInterceptor;
+import org.springframework.ws.client.support.interceptor.ClientInterceptorAdapter;
 import org.springframework.ws.context.MessageContext;
 
-public class SoapClientLoggingInterceptor implements ClientInterceptor {
+public class SoapClientLoggingInterceptor extends ClientInterceptorAdapter {
     private static final Logger logger = LoggerFactory.getLogger( MethodHandles.lookup().lookupClass() );
 
     @Override
@@ -44,18 +44,5 @@ public class SoapClientLoggingInterceptor implements ClientInterceptor {
         }
 
         return true;
-    }
-
-    @Override
-    public boolean handleFault( @SuppressWarnings( "unused" ) MessageContext messageContext ) {
-        return true;
-    }
-
-    @Override
-    public void afterCompletion(
-            @SuppressWarnings( "unused" ) MessageContext messageContext,
-            @SuppressWarnings( "unused" ) Exception ex
-    ) {
-        // do nothing
     }
 }
