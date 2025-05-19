@@ -46,12 +46,11 @@ public class WebServiceTestConfig {
         Wss4jSecurityInterceptor interceptor = new Wss4jSecurityInterceptor();
         interceptor.setSecurementActions( "Encrypt" );
         interceptor.setSecurementEncryptionCrypto( cryptoFactoryBean().getObject() );
-        interceptor.setSecurementEncryptionParts( "{Content}{http://schemas.xmlsoap.org/soap/envelope/}Body" );
         interceptor.setSecurementEncryptionUser( "server-cert" );
         return interceptor;
     }
 
-    @Bean( "test-crypto" )
+    @Bean
     public CryptoFactoryBean cryptoFactoryBean() throws IOException {
         CryptoFactoryBean cryptoFactoryBean = new CryptoFactoryBean();
         cryptoFactoryBean.setKeyStorePassword( "password" );
