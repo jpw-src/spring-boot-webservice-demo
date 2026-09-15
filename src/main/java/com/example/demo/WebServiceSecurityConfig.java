@@ -12,13 +12,14 @@ import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.ws.config.annotation.WsConfigurer;
 import org.springframework.ws.server.EndpointInterceptor;
 import org.springframework.ws.soap.security.wss4j2.Wss4jSecurityInterceptor;
 import org.springframework.ws.soap.security.wss4j2.callback.KeyStoreCallbackHandler;
 import org.springframework.ws.soap.security.wss4j2.support.CryptoFactoryBean;
 
 @Configuration
-public class WebServiceSecurityConfig {
+public class WebServiceSecurityConfig implements WsConfigurer {
 
     @Bean
     public Wss4jSecurityInterceptor securityInterceptor() throws Exception {
@@ -42,9 +43,14 @@ public class WebServiceSecurityConfig {
         return cryptoFactoryBean;
     }
 
-    @Bean
-    public List<EndpointInterceptor > endpointInterceptors( Wss4jSecurityInterceptor securityInterceptor ) {
-        return List.of( securityInterceptor );
+    @Override
+    public void addInterceptors(List<EndpointInterceptor> interceptors) {
+        try {
+            interceptors.add(securityInterceptor());
+        }
+        catch (Exception ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
 }
